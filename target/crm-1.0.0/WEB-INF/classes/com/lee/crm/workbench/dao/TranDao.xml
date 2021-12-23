@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lee.crm.workbench.dao.TranDao">
+	<insert id="insertTran">
+        insert into tbl_tran(id, money, name, expectedDate, customerId, stage, activityId, contactsId, createBy, createTime)
+        values (#{id}, #{money}, #{name}, #{expectedDate}, #{customerId}, #{stage}, #{activityId}, #{contactsId}, #{createBy}, #{createTime})
+    </insert>
+    <select id="listTransByCustomerId" resultType="Tran">
+        select * from tbl_tran where customerId = #{id}
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

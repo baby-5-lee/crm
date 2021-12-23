@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lee.crm.workbench.dao.CustomerDao">
+	<insert id="insertCustomer">
+        insert into tbl_customer(id, owner, name, website, phone, createBy, createTime, contactSummary, nextContactTime, description, address)
+        values (#{id}, #{owner}, #{name}, #{website}, #{phone}, #{createBy}, #{createTime}, #{contactSummary}, #{nextContactTime}, #{description}, #{address})
+    </insert>
+
+    <select id="selectIdByName" resultType="string">
+        select id from tbl_customer where name=#{name}
+    </select>
+
+    <select id="selectAllCustomers" resultType="Customer">
+        select c.id, u.name as owner, c.name, website, phone from tbl_customer c join tbl_user u on c.owner = u.id
+        <where>
+            <if test="name != null and name != ''">
+                c.name like '%' #{name} '%'
+            </if>
+            <if test="owner != null and owner != ''">
+                and u.name like '%' #{owner} '%'
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone like '%' #{phone} '%'
+            </if>
+            <if test="website != null and website != ''">
+                and website like '%' #{website} '%'
+            </if>
+        </where>
+        order by c.createTime desc
+    </select>
+
+    <select id="selectTotal" resultType="int">
+        select count(*) from tbl_customer c join tbl_user u on c.owner = u.id
+        <where>
+            <if test="name != null and name != ''">
+                c.name like '%' #{name} '%'
+            </if>
+            <if test="owner != null and owner != ''">
+                and u.name like '%' #{owner} '%'
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone like '%' #{phone} '%'
+            </if>
+            <if test="website != null and website != ''">
+                and website like '%' #{website} '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="selectById" resultType="Customer">
+        select * from tbl_customer where id = #{id}
+    </select>
+
+    <update id="updateCustomer">
+        update tbl_customer set owner = #{owner},name = #{name},website = #{website},phone = #{phone},editBy = #{editBy},
+            editTime = #{editTime},contactSummary = #{contactSummary},nextContactTime = #{nextContactTime},
+            description = #{description},address = #{address} where id = #{id}
+    </update>
+
+    <delete id="deleteCustomers">
+        delete from tbl_customer where id in
+        <foreach collection="array" open="(" separator="," item="item" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="getDetailById" resultType="Customer">
+        select u.name as owner,c.name,website,phone,c.createBy,c.createTime,c.editBy,c.editTime,contactSummary,nextContactTime,
+               description,address from tbl_customer as c join tbl_user as u on c.owner = u.id where c.id = #{id}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
